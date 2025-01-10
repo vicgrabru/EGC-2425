@@ -5,6 +5,18 @@ on:
     branches: [config/ci]
 
 jobs:
+  outdated_dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      
+      - name: Install npm
+        run: npm install
+      
+      - name: Check outdated
+        run: npm outdated reveal.js
+
   pytest:
     runs-on: ubuntu-latest
 
@@ -25,7 +37,7 @@ jobs:
 
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.11'
 
     - name: Prepare environment
       run: |
@@ -46,3 +58,4 @@ jobs:
         MARIADB_PASSWORD: uvlhub_password
       run: |
         pytest app/modules/ --ignore-glob='*selenium*'
+  
